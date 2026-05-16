@@ -24,21 +24,6 @@
 
   </div>
 
-  <div class="contact-right">
-
-    <h3>INFORMACION DE CONTACTO</h3>
-
-    <p><strong>DIRECCION</strong></p>
-    <p>Calle 123 #45-67, Ocaña</p>
-
-    <p><strong>TELEFONO</strong></p>
-    <p>+57 310 240 2810</p>
-
-    <p><strong>CORREO</strong></p>
-    <p>andreygalvis6002@gmail.com</p>
-
-  </div>
-
 </section>
 
 </template>

@@ -45,6 +45,10 @@ segundo-parcial-des-app-web/
 ├── src/
 │   ├── assets/
 │   │   └── css/
+│   │       ├──Styles
+│   │       │   ├── Header.css
+│   │       │   ├── Footer.css
+│   │       │   ├── Sidebar.css
 │   │       ├── Style.css
 │   │       └── Login.css
 │   │
@@ -63,9 +67,7 @@ segundo-parcial-des-app-web/
 │   │
 │   ├── views/
 │   │   ├── HomeView.vue
-│   │   ├── LoginView.vue
-│   │   ├── DashboardView.vue
-│   │   └── ProductView.vue
+│   │   └── LoginView.vue
 │   │
 │   ├── App.vue
 │   └── main.js
