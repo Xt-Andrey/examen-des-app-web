@@ -230,7 +230,7 @@ import ProductCard from '../components/ProductCard.vue'
 import ContactForm from '../components/ContactForm.vue'
 import AppFooter from '../components/Footer.vue'
 
-import productosData from '../data/productos.json'
+import productosData from '../data/Productos.json'
 
 export default {
 
