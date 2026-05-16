@@ -366,8 +366,8 @@ https://cli.vuejs.org/config/
 
 | Nombre | Código |
 |---|---|
-| RUBIEL ANDREY GALVIS GALVIS | 192483 |
-| ARNOLD CLARO | 192--- |
+| RUBIEL ANDREY GALVIS GALVIS | 0192483 |
+| ARNOLD CLARO | 01924993 |
 
 ---
 
