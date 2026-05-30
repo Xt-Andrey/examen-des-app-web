@@ -59,11 +59,12 @@ segundo-parcial-des-app-web/
 │   │   ├── ProductCard.vue
 │   │   └── ContactForm.vue
 │   │
-│   ├── data/
-│   │   └── Productos.json
-│   │
 │   ├── router/
-│   │   └── Index.js
+│   │   └── index.js
+│   │
+│   ├─── services
+│   │   ├── products.js
+│   │   └── users.js
 │   │
 │   ├── views/
 │   │   ├── HomeView.vue
@@ -71,7 +72,7 @@ segundo-parcial-des-app-web/
 │   │
 │   ├── App.vue
 │   └── main.js
-│
+│   
 ├── package.json
 ├── babel.config.js
 ├── vue.config.js
