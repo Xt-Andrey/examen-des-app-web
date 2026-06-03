@@ -72,7 +72,6 @@ segundo-parcial-des-app-web/
 │   │
 │   ├─── services
 │   │   ├── products.js
-│   │   ├── orders.js
 │   │   └── users.js
 │   │
 │   ├── views/
