@@ -1,100 +1,71 @@
 <template>
 
-<header class="header">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-  <div class="logo">
+  <div class="container">
 
-    <span>FAST FOOD</span>
+    <a class="navbar-brand" @click="goHome">
+      🍔 Fast Food Bites
+    </a>
 
-    <h2>BITES</h2>
-
-  </div>
-
-  <!-- MENU MOBILE -->
-
-  <div
-    class="menu-toggle"
-    @click="menuOpen = !menuOpen"
-  >
-    ☰
-  </div>
-
-  <!-- NAVBAR -->
-
-  <nav
-    class="navbar"
-    :class="{ active: menuOpen }"
-  >
-
-    <ul>
-
-      <li>
-        <a
-          href="#menu"
-          @click="menuOpen = false"
-        >
-          Menu
-        </a>
-      </li>
-
-      <li>
-        <a
-          href="#categorias"
-          @click="menuOpen = false"
-        >
-          Categorias
-        </a>
-      </li>
-
-      <li>
-        <a
-          href="#nosotros"
-          @click="menuOpen = false"
-        >
-          Nosotros
-        </a>
-      </li>
-
-      <li>
-        <a
-          href="#contacto"
-          @click="menuOpen = false"
-        >
-          Contacto
-        </a>
-      </li>
-
-    </ul>
-
-  </nav>
-
-  <!-- RIGHT -->
-
-  <div class="header-right">
+    <button
+      class="navbar-toggler"
+      data-bs-toggle="collapse"
+      data-bs-target="#menu"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
     <div
-      class="cart-icon"
-      @click="$emit('toggle-carrito')"
+      id="menu"
+      class="collapse navbar-collapse"
     >
 
-      🛒
+      <ul class="navbar-nav me-auto">
 
-      <span class="cart-count">
-        {{ carrito.length }}
-      </span>
+        <li class="nav-item">
+          <a
+            href="#menu-productos"
+            class="nav-link"
+          >
+            Productos
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            href="#contacto"
+            class="nav-link"
+          >
+            Contacto
+          </a>
+        </li>
+
+      </ul>
+
+      <div class="d-flex align-items-center gap-3">
+
+        <button
+          class="btn btn-outline-warning"
+          @click="$emit('toggle-carrito')"
+        >
+          🛒 {{ totalItems }}
+        </button>
+
+        <button
+          class="btn btn-danger"
+          @click="logout"
+        >
+          Salir
+        </button>
+
+      </div>
 
     </div>
 
-    <button
-      class="logout-btn"
-      @click="cerrarSesion"
-    >
-      Salir
-    </button>
-
   </div>
 
-</header>
+</nav>
 
 </template>
 
@@ -102,28 +73,35 @@
 
 export default {
 
-  name:'AppHeader',
+  name: 'AppHeader',
 
-  props:{
-    carrito:Array
+  props: {
+    carrito: Array
   },
 
-  data(){
+  computed: {
 
-    return{
+    totalItems() {
 
-      menuOpen:false
+      return this.carrito.reduce(
+        (acc, item) =>
+          acc + item.cantidad,
+        0
+      )
 
     }
 
   },
 
-  methods:{
+  methods: {
 
-    cerrarSesion(){
-
+    goHome() {
       this.$router.push('/')
+    },
 
+    logout() {
+      localStorage.clear()
+      this.$router.push('/login')
     }
 
   }

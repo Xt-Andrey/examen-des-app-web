@@ -1,0 +1,96 @@
+/* Sidebar Component Styles - Fast Food Bites */
+.sidebar {
+  background: var(--white);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 80px;
+  border-left: 4px solid var(--primary-orange);
+}
+
+.sidebar h3 {
+  color: var(--black);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 2px solid var(--primary-orange);
+  font-size: var(--font-size-lg);
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: var(--spacing-sm) 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--gray-600);
+  border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-md);
+}
+
+.sidebar li:last-child {
+  border-bottom: none;
+}
+
+.sidebar li:hover {
+  color: var(--primary-orange);
+  transform: translateX(5px);
+  padding-left: var(--spacing-sm);
+}
+
+.promo {
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  background: linear-gradient(135deg, var(--primary-orange), var(--primary-orange-dark));
+  border-radius: var(--border-radius-lg);
+  color: var(--white);
+  text-align: center;
+}
+
+.promo h4 {
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-lg);
+}
+
+.promo p {
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  opacity: 0.95;
+}
+
+.promo span {
+  display: inline-block;
+  margin-top: var(--spacing-sm);
+  font-size: var(--font-size-xl);
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    position: static;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .sidebar ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-sm);
+  }
+  
+  .sidebar li {
+    padding: var(--spacing-sm);
+    justify-content: center;
+  }
+  
+  .sidebar li:hover {
+    transform: translateY(-2px);
+  }
+}

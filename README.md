@@ -45,29 +45,39 @@ segundo-parcial-des-app-web/
 ├── src/
 │   ├── assets/
 │   │   └── css/
-│   │       ├──Styles
-│   │       │   ├── Header.css
-│   │       │   ├── Footer.css
-│   │       │   ├── Sidebar.css
-│   │       ├── Style.css
-│   │       └── Login.css
+│   │        ├── Styles.css (archivo principal que importa todos)
+│   │        ├── components/
+│   │        │     ├── Header.css
+│   │        │     ├── Footer.css
+│   │        │     ├── Sidebar.css
+│   │        │     └── ProductCard.css
+│   │        ├── views/
+│   │        │     ├── Login.css
+│   │        │     ├── Home.css
+│   │        │     └── AdminDashboard.css
+│   │        └── utils/
+│   │              └── variables.css (variables globales)
 │   │
 │   ├── components/
-│   │   ├── Header.vue
-│   │   ├── Footer.vue
-│   │   ├── Sidebar.vue
-│   │   ├── ProductCard.vue
-│   │   └── ContactForm.vue
+│   │  ├── ProductCard.vue
+│   │  ├── Header.vue
+│   │  ├── Footer.vue
+│   │  ├── Sidebar.vue
+│   │  ├── ContactForm.vue
+│   │  ├── Cart.vue
+│   │  └── AdminPanel.vue
 │   │
 │   ├── router/
 │   │   └── index.js
 │   │
 │   ├─── services
 │   │   ├── products.js
+│   │   ├── orders.js
 │   │   └── users.js
 │   │
 │   ├── views/
 │   │   ├── HomeView.vue
+│   │   ├── AdminDashboard.vue
 │   │   └── LoginView.vue
 │   │
 │   ├── App.vue

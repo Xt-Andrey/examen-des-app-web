@@ -30,17 +30,18 @@
 
       <p>
         <strong>
-          Prueba:
-          usuario@gmail.com /
-          contraseña123
+          Usuarios de prueba:
         </strong>
       </p>
+      <p>👑 Admin: Nico.Cummings92@yahoo.com / gLz714f8Ocm4s7W</p>
+      <p>👤 Usuario: Alyson.Gottlieb3@yahoo.com / 0OsrkDfqM9ciMcC</p>
 
       <label>Correo electrónico</label>
 
       <input
         type="email"
         v-model="correo"
+        placeholder="Ingresa tu email"
       >
 
       <label>Contraseña</label>
@@ -48,6 +49,8 @@
       <input
         type="password"
         v-model="password"
+        placeholder="Ingresa tu contraseña"
+        @keyup.enter="login"
       >
 
       <button @click="login">
@@ -57,7 +60,7 @@
       <p>
         ¿No tienes una cuenta?
         <router-link to="/register">
-          Registrate
+          Regístrate
         </router-link>
       </p>
 
@@ -70,30 +73,57 @@
 </template>
 
 <script setup>
-
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { getUsers } from '../services/users'
 
 const correo = ref('')
 const password = ref('')
-
 const router = useRouter()
 
-const login = () => {
+const login = async () => {
 
-  if(
-    correo.value === 'usuario@gmail.com' &&
-    password.value === 'contraseña123'
-  ){
-    router.push('/home')
-  }else{
-    alert('Correo o contraseña incorrectos')
+  if (!correo.value || !password.value) {
+    alert('Por favor ingresa correo y contraseña')
+    return
+  }
+
+  try {
+
+    const usuarios = await getUsers()
+
+    const usuario = usuarios.find(
+      user =>
+        user.email === correo.value &&
+        user.password === password.value
+    )
+
+    if (usuario) {
+
+      localStorage.setItem('user', JSON.stringify(usuario))
+      localStorage.setItem('userRole', usuario.role)
+      localStorage.setItem('userEmail', usuario.email)
+      localStorage.setItem('userName', usuario.name)
+
+      if (usuario.role === 'admin') {
+        router.push('/admin')
+      } else {
+        router.push('/')
+      }
+
+    } else {
+
+      alert('Correo o contraseña incorrectos')
+
+    }
+
+  } catch (error) {
+
+    console.error('Error en login:', error)
+    alert('Error al conectar con MockAPI')
+
   }
 
 }
 
 </script>
-
-<style scoped>
-@import '../assets/css/Login.css';
-</style> 

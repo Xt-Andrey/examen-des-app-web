@@ -1,0 +1,260 @@
+/* AdminDashboard Styles - Fast Food Bites */
+.admin-dashboard {
+  padding: var(--spacing-lg);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 2px solid var(--primary-orange);
+}
+
+.admin-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.admin-info span {
+  color: var(--primary-orange);
+  font-weight: 600;
+  font-size: var(--font-size-md);
+}
+
+.tabs {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xl);
+}
+
+.tab-btn {
+  padding: 10px 24px;
+  border: none;
+  background: var(--gray-200);
+  cursor: pointer;
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.tab-btn:hover {
+  background: var(--gray-300);
+}
+
+.tab-btn.active {
+  background: var(--primary-orange);
+  color: var(--white);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.btn-add, .btn-edit, .btn-delete, .btn-logout, .btn-save, .btn-cancel {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-add {
+  background: var(--success);
+  color: var(--white);
+}
+
+.btn-add:hover {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+.btn-edit {
+  background: var(--info);
+  color: var(--white);
+  margin-right: 5px;
+}
+
+.btn-edit:hover {
+  background: #138496;
+}
+
+.btn-delete {
+  background: var(--danger);
+  color: var(--white);
+}
+
+.btn-delete:hover {
+  background: #c82333;
+}
+
+.btn-logout {
+  background: var(--danger);
+  color: var(--white);
+}
+
+.btn-save {
+  background: var(--success);
+  color: var(--white);
+}
+
+.btn-cancel {
+  background: var(--gray-600);
+  color: var(--white);
+}
+
+.btn-edit:disabled,
+.btn-delete:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.table-container {
+  overflow-x: auto;
+  background: var(--white);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+th {
+  background: var(--gray-100);
+  font-weight: 600;
+  color: var(--black);
+}
+
+.product-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: var(--border-radius-sm);
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+.badge-success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.badge-secondary {
+  background: var(--gray-200);
+  color: var(--gray-700);
+}
+
+.badge-danger {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.badge-info {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--white);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-md);
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.form-group {
+  margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-md);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary-orange);
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: var(--spacing-md);
+  }
+  
+  .admin-header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .tabs {
+    flex-direction: column;
+  }
+  
+  th, td {
+    padding: 8px;
+    font-size: var(--font-size-sm);
+  }
+}

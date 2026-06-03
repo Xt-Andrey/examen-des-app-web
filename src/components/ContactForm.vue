@@ -1,29 +1,49 @@
 <template>
 
-<section class="contact-section">
+<section
+  id="contacto"
+  class="container my-5"
+>
 
-  <div class="contact-left">
+  <h2>
+    Contacto
+  </h2>
 
-    <h2>CONTÁCTANOS</h2>
+  <form>
 
-    <p>
-      Envíanos tu mensaje y te responderemos.
-    </p>
+    <input
+      type="text"
+      class="form-control mb-3"
+      placeholder="Nombre"
+    >
 
-    <input type="text" placeholder="Tu nombre">
+    <input
+      type="email"
+      class="form-control mb-3"
+      placeholder="Correo"
+    >
 
-    <input type="email" placeholder="tucorreo@ejemplo.com">
+    <textarea
+      class="form-control mb-3"
+      rows="4"
+      placeholder="Mensaje"
+    ></textarea>
 
-    <input type="text" placeholder="Asunto">
-
-    <textarea placeholder="Escribe tu mensaje aqui..."></textarea>
-
-    <button>
-      Enviar mensaje
+    <button
+      class="btn btn-warning"
+      type="button"
+    >
+      Enviar
     </button>
 
-  </div>
+  </form>
 
 </section>
 
 </template>
+
+<script>
+export default {
+  name:'ContactForm'
+}
+</script>
