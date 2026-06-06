@@ -1,20 +1,20 @@
-/* Sidebar Component Styles - Fast Food Bites */
+/* ========== SIDEBAR COMPONENT ========== */
 .sidebar {
-  background: var(--white);
-  padding: var(--spacing-lg);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-md);
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   position: sticky;
-  top: 80px;
-  border-left: 4px solid var(--primary-orange);
+  top: 90px;
 }
 
 .sidebar h3 {
-  color: var(--black);
-  margin-bottom: var(--spacing-md);
-  padding-bottom: var(--spacing-sm);
-  border-bottom: 2px solid var(--primary-orange);
-  font-size: var(--font-size-lg);
+  color: #FF6B35;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 700;
+  border-bottom: 2px solid #FF6B35;
+  padding-bottom: 10px;
 }
 
 .sidebar ul {
@@ -24,73 +24,47 @@
 }
 
 .sidebar li {
-  padding: var(--spacing-sm) 0;
+  padding: 10px 15px;
+  margin-bottom: 5px;
   cursor: pointer;
+  border-radius: 10px;
   transition: all 0.3s ease;
-  color: var(--gray-600);
-  border-bottom: 1px solid var(--gray-200);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  font-size: var(--font-size-md);
-}
-
-.sidebar li:last-child {
-  border-bottom: none;
+  color: #1A1A2E;
+  font-weight: 500;
 }
 
 .sidebar li:hover {
-  color: var(--primary-orange);
+  background: #FFF5F0;
+  color: #FF6B35;
   transform: translateX(5px);
-  padding-left: var(--spacing-sm);
 }
 
 .promo {
-  margin-top: var(--spacing-xl);
-  padding: var(--spacing-lg);
-  background: linear-gradient(135deg, var(--primary-orange), var(--primary-orange-dark));
-  border-radius: var(--border-radius-lg);
-  color: var(--white);
+  margin-top: 30px;
+  background: linear-gradient(135deg, #FF6B35, #FF4757);
+  color: white;
+  padding: 20px;
+  border-radius: 16px;
   text-align: center;
 }
 
 .promo h4 {
-  margin-bottom: var(--spacing-sm);
-  font-size: var(--font-size-lg);
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .promo p {
-  margin-bottom: var(--spacing-sm);
-  font-size: var(--font-size-sm);
+  font-size: 13px;
+  margin-bottom: 10px;
   opacity: 0.95;
 }
 
 .promo span {
   display: inline-block;
-  margin-top: var(--spacing-sm);
-  font-size: var(--font-size-xl);
-  font-weight: bold;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .sidebar {
-    position: static;
-    margin-bottom: var(--spacing-lg);
-  }
-  
-  .sidebar ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: var(--spacing-sm);
-  }
-  
-  .sidebar li {
-    padding: var(--spacing-sm);
-    justify-content: center;
-  }
-  
-  .sidebar li:hover {
-    transform: translateY(-2px);
-  }
+  background: rgba(255, 255, 255, 0.2);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 20px;
+  font-weight: 700;
 }

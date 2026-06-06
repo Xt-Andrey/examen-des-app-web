@@ -4,19 +4,12 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/Index.js'
 
-// Importar variables globales
-import './assets/css/utils/variables.css'
+// Bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
-// Importar componentes
-import './assets/css/components/Header.css'
-import './assets/css/components/Footer.css'
-import './assets/css/components/Sidebar.css'
-import './assets/css/components/ProductCard.css'
-
-// Importar vistas
-import './assets/css/views/Login.css'
-import './assets/css/views/Home.css'
-import './assets/css/views/AdminDashboard.css'
+// Estilos principales
+import './assets/css/Styles.css'
 
 createApp(App)
   .use(router)

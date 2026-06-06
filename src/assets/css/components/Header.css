@@ -1,148 +1,251 @@
-/* Header Component Styles - Fast Food Bites */
+/* ========================================
+   HEADER COMPONENT
+   Fondo: Negro (#1A1A2E) | Letras: Blancas
+   Logo: Fast naranja | Food y Bites blancos
+   ======================================== */
+
 .navbar {
-  background-color: var(--black);
-  padding: 1rem 0;
+  background: #1A1A2E;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: var(--shadow-md);
-  border-bottom: 2px solid var(--primary-orange);
+  padding: 18px 0;
 }
 
-.navbar .container {
-  max-width: 1200px;
+.nav-container {
+  max-width: 1300px;
   margin: 0 auto;
-  padding: 0 var(--spacing-md);
+  padding: 0 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 60px;
 }
 
-.navbar-brand {
-  color: var(--primary-orange);
-  font-size: var(--font-size-xl);
-  font-weight: bold;
-  text-decoration: none;
+/* ========== LOGO ========== */
+.nav-logo {
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: transform 0.2s;
+  flex-shrink: 0;
 }
 
-.navbar-brand:hover {
-  color: var(--primary-orange-light);
+.nav-logo:hover {
+  transform: scale(1.02);
 }
 
-.navbar-toggler {
+.logo-line1 {
+  display: flex;
+  gap: 8px;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+.logo-fast {
+  color: #FF6B35;
+}
+
+.logo-food {
+  color: #FFFFFF;
+}
+
+.logo-line2 {
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin-top: -8px;
+}
+
+.logo-bites {
+  color: #FFFFFF;
+}
+
+/* ========== MENÚ CENTRAL ========== */
+.nav-menu {
+  display: flex;
+  gap: 50px;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-link {
+  color: #FFFFFF;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 17px;
+  transition: color 0.3s;
+  position: relative;
+  padding: 5px 0;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: #FF6B35;
+  transition: width 0.3s;
+  border-radius: 2px;
+}
+
+.nav-link:hover {
+  color: #FF6B35;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ========== BOTONES A LA DERECHA ========== */
+.nav-actions {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cart-btn {
+  background: transparent;
+  border: 2px solid #FF6B35;
+  padding: 9px 24px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-btn:hover {
+  background: #FF6B35;
+  color: #1A1A2E;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255,107,53,0.3);
+}
+
+.cart-count {
+  background: #FF6B35;
+  color: #1A1A2E;
+  padding: 3px 9px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cart-btn:hover .cart-count {
+  background: #1A1A2E;
+  color: #FF6B35;
+}
+
+.logout-btn {
+  background: transparent;
+  border: 2px solid #DC3545;
+  padding: 9px 28px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.logout-btn:hover {
+  background: #DC3545;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(220,53,69,0.3);
+}
+
+/* ========== MENÚ MÓVIL ========== */
+.mobile-menu-btn {
   display: none;
   background: none;
   border: none;
-  color: var(--white);
-  font-size: var(--font-size-xl);
+  font-size: 28px;
   cursor: pointer;
+  color: #FFFFFF;
 }
 
-.navbar-collapse {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex: 1;
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  padding: 20px;
+  background: #1A1A2E;
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
 
-.navbar-nav {
-  display: flex;
-  list-style: none;
-  gap: var(--spacing-lg);
-  margin: 0;
-  padding: 0;
-  margin-left: var(--spacing-lg);
-}
-
-.nav-item a {
-  color: var(--white);
+.mobile-link {
+  padding: 12px 0;
   text-decoration: none;
-  transition: color 0.3s ease;
-  font-size: var(--font-size-md);
-  font-weight: 500;
+  color: #FFFFFF;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.nav-item a:hover {
-  color: var(--primary-orange);
-}
-
-.nav-buttons {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-}
-
-.btn-cart {
-  background: none;
-  border: 2px solid var(--primary-orange);
-  color: var(--primary-orange);
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius-md);
-  cursor: pointer;
-  font-size: var(--font-size-md);
-  transition: all 0.3s ease;
-}
-
-.btn-cart:hover {
-  background: var(--primary-orange);
-  color: var(--black);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-orange);
-}
-
-.btn-logout {
-  background: var(--danger);
+.mobile-cart {
+  margin-top: 10px;
+  background: #FF6B35;
   border: none;
-  color: var(--white);
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius-md);
+  padding: 12px;
+  border-radius: 30px;
+  color: #1A1A2E;
+  font-weight: 600;
   cursor: pointer;
-  font-size: var(--font-size-md);
-  transition: all 0.3s ease;
 }
 
-.btn-logout:hover {
-  background: #c82333;
-  transform: translateY(-2px);
+.mobile-logout {
+  margin-top: 10px;
+  background: #DC3545;
+  border: none;
+  padding: 12px;
+  border-radius: 30px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-/* Responsive */
+/* ========== RESPONSIVE ========== */
+@media (max-width: 992px) {
+  .nav-container {
+    gap: 30px;
+    padding: 0 20px;
+  }
+  
+  .nav-menu {
+    gap: 30px;
+  }
+}
+
 @media (max-width: 768px) {
-  .navbar-toggler {
+  .nav-menu, .nav-actions {
+    display: none;
+  }
+  
+  .mobile-menu-btn {
     display: block;
   }
   
-  .navbar-collapse {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: var(--black);
-    flex-direction: column;
-    padding: var(--spacing-md);
-  }
-  
-  .navbar-collapse.show {
+  .mobile-menu {
     display: flex;
   }
   
-  .navbar-nav {
-    flex-direction: column;
-    gap: var(--spacing-md);
-    margin-left: 0;
-    width: 100%;
-    margin-bottom: var(--spacing-md);
+  .logo-line1 {
+    font-size: 24px;
   }
   
-  .nav-buttons {
-    flex-direction: column;
-    width: 100%;
+  .logo-line2 {
+    font-size: 24px;
   }
   
-  .btn-cart, .btn-logout {
-    width: 100%;
+  .nav-container {
+    gap: 15px;
   }
 }

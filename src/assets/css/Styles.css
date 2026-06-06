@@ -1,17 +1,20 @@
-/* Fast Food Bites - Main Styles File */
+/* ========================================
+   FAST FOOD BITES - ESTILOS PRINCIPALES
+   Colores: Blanco, Naranja (#FF6B35), Negro (#1A1A2E)
+   ======================================== */
 
-/* Importar variables globales */
-@import './utils/variables.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
-/* Importar estilos de componentes */
+/* Importar componentes */
 @import './components/Header.css';
 @import './components/Footer.css';
-@import './components/Sidebar.css';
 @import './components/ProductCard.css';
+@import './components/Cart.css';
+@import './components/ContactForm.css';
 
-/* Importar estilos de vistas */
-@import './views/Login.css';
+/* Importar vistas */
 @import './views/Home.css';
+@import './views/Auth.css';
 @import './views/AdminDashboard.css';
 
 /* Estilos globales */
@@ -21,87 +24,64 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: var(--font-family);
-  background-color: var(--gray-100);
-  color: var(--black);
-  line-height: 1.6;
+  font-family: 'Poppins', sans-serif;
+  background: #FFFFFF;
+  color: #1A1A2E;
+  overflow-x: hidden;
 }
 
-#app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Utilidades globales */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
-}
-
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-.text-left { text-align: left; }
-
-.text-primary { color: var(--primary-orange); }
-.text-white { color: var(--white); }
-.text-black { color: var(--black); }
-
-.mt-1 { margin-top: var(--spacing-sm); }
-.mt-2 { margin-top: var(--spacing-md); }
-.mt-3 { margin-top: var(--spacing-lg); }
-.mb-1 { margin-bottom: var(--spacing-sm); }
-.mb-2 { margin-bottom: var(--spacing-md); }
-.mb-3 { margin-bottom: var(--spacing-lg); }
-
-.p-1 { padding: var(--spacing-sm); }
-.p-2 { padding: var(--spacing-md); }
-.p-3 { padding: var(--spacing-lg); }
-
-.d-flex { display: flex; }
-.d-grid { display: grid; }
-.flex-column { flex-direction: column; }
-.justify-between { justify-content: space-between; }
-.justify-center { justify-content: center; }
-.align-center { align-items: center; }
-.gap-1 { gap: var(--spacing-sm); }
-.gap-2 { gap: var(--spacing-md); }
-.gap-3 { gap: var(--spacing-lg); }
-
-/* Scrollbar personalizada */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
-  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--gray-200);
-  border-radius: 4px;
+  background: #F0F0F0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-orange);
-  border-radius: 4px;
+  background: #FF6B35;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-orange-dark);
+  background: #E55A2B;
 }
 
-/* Animaciones globales */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.fade-in {
-  animation: fadeIn 0.5s ease;
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: #FF6B35;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #E55A2B;
+  transform: translateY(-2px);
+}
+
+/* FORZAR FOOTER NEGRO */
+footer, .footer {
+  background: #1A1A2E !important;
+  background-color: #1A1A2E !important;
 }

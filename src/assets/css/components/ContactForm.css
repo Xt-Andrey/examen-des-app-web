@@ -1,0 +1,88 @@
+/* ========================================
+   CONTACT FORM COMPONENT
+   ======================================== */
+
+.contact-section {
+  padding: 60px 0;
+  background: #F8F9FA;
+}
+
+.contact-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.contact-card {
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.contact-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #1A1A2E;
+}
+
+.contact-title span {
+  color: #FF6B35;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1A1A2E;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #E8ECEF;
+  border-radius: 12px;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #FF6B35;
+}
+
+.btn-submit {
+  width: 100%;
+  background: #FF6B35;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-submit:hover {
+  background: #E55A2B;
+}
+
+@media (max-width: 768px) {
+  .contact-card {
+    padding: 30px;
+  }
+  
+  .contact-title {
+    font-size: 28px;
+  }
+}

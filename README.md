@@ -38,7 +38,7 @@ Restaurante de comida rápida.
 # 📂 Estructura del Proyecto
 
 ```bash
-segundo-parcial-des-app-web/
+Examen-des-app-web/
 │
 ├── public/
 │

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
+import RegisterView from '../views/RegisterView.vue'
 import AdminDashboard from '../views/AdminDashboard.vue'
 
 const routes = [
@@ -16,6 +17,11 @@ const routes = [
     component: LoginView
   },
   {
+    path: '/register',
+    name: 'register',
+    component: RegisterView
+  },
+  {
     path: '/admin',
     name: 'admin',
     component: AdminDashboard,
@@ -29,7 +35,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('user') || localStorage.getItem('usuario')
+  // CAMBIADO: usar localStorage en lugar de sessionStorage
+  const isAuthenticated = localStorage.getItem('user')
   const userRole = localStorage.getItem('userRole')
   
   if (to.meta.requiresAuth && !isAuthenticated) {
