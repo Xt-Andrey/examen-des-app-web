@@ -1,37 +1,124 @@
-# 🍔 Fast Food Bites — Aplicación Web con Vue.js
+# 🍔 Fast Food Bites
 
-Fast Food Bites es una aplicación web desarrollada con Vue.js 3 que simula la gestión digital de un restaurante de comida rápida. El sistema permite a los usuarios iniciar sesión y acceder a un dashboard interactivo donde se administran productos mediante un CRUD simulado utilizando archivos JSON y LocalStorage.
+## Sistema Web de Gestión para Restaurante de Comida Rápida
 
-El proyecto fue desarrollado aplicando conceptos de modularización, componentes reutilizables, rutas dinámicas y diseño responsivo utilizando Vue Router y Bootstrap.
-
----
-
-# 📌 Objetivo del Proyecto
-
-Desarrollar una aplicación web modularizada utilizando Vue.js, implementando buenas prácticas de programación, componentes reutilizables y navegación dinámica mediante Vue Router.
-
-La aplicación busca simular un sistema administrativo para un restaurante de comida rápida, incluyendo:
-
-- Inicio de sesión.
-- Dashboard administrativo.
-- Gestión de productos.
-- Navegación dinámica.
-- CRUD simulado con LocalStorage.
-- Componentes reutilizables.
-- Diseño responsivo con Bootstrap.
+### Desarrollo de Aplicaciones Web
 
 ---
 
-# 🏪 Tipo de Negocio
+## 📖 Descripción del Proyecto
 
-**Fast Food Bites**  
-Restaurante de comida rápida.
+**Fast Food Bites** es una aplicación web desarrollada con **Vue.js 3** que permite gestionar de manera digital un restaurante de comida rápida. El sistema ofrece funcionalidades para clientes y administradores, incluyendo autenticación, gestión de productos, pedidos, usuarios y un carrito de compras completamente funcional.
 
-## 🎨 Paleta de colores
+La aplicación fue diseñada siguiendo una arquitectura modular basada en componentes reutilizables, navegación mediante Vue Router y persistencia de datos utilizando LocalStorage y MockAPI.
 
-- Naranja: `#ff6b35`
-- Blanco: `#ffffff`
-- Negro: `#000000`
+---
+
+## 🎯 Objetivo General
+
+Desarrollar una aplicación web dinámica utilizando Vue.js, aplicando conceptos de programación modular, componentes reutilizables, navegación SPA y gestión de datos mediante servicios externos.
+
+### Objetivos Específicos
+
+* Implementar autenticación de usuarios.
+* Crear un CRUD completo para productos.
+* Gestionar usuarios mediante un panel administrativo.
+* Administrar pedidos y estados de entrega.
+* Implementar un carrito de compras funcional.
+* Utilizar Vue Router para la navegación.
+* Aplicar diseño responsivo con Bootstrap.
+* Consumir servicios externos mediante Axios.
+
+---
+
+## 🏪 Información del Negocio
+
+**Nombre:** Fast Food Bites
+
+**Tipo:** Restaurante de comida rápida premium.
+
+### Servicios Ofrecidos
+
+* Venta de hamburguesas
+* Perros calientes
+* Papas fritas
+* Bebidas
+* Combos promocionales
+
+---
+
+## 🎨 Identidad Visual
+
+| Elemento   | Color   |
+| ---------- | ------- |
+| Principal  | #FF6B35 |
+| Secundario | #FFFFFF |
+| Texto      | #1A1A2E |
+
+---
+
+## ⚙️ Funcionalidades del Sistema
+
+### 👤 Usuarios
+
+* Registro de nuevos usuarios.
+* Inicio de sesión.
+* Cierre de sesión.
+* Gestión de perfil.
+
+### 🛒 Carrito de Compras
+
+* Agregar productos.
+* Modificar cantidades.
+* Eliminar productos.
+* Vaciar carrito.
+* Calcular total automáticamente.
+* Finalizar compra.
+
+### 📦 Gestión de Productos
+
+* Crear productos.
+* Consultar productos.
+* Actualizar productos.
+* Eliminar productos.
+* Marcar productos populares.
+
+### 👥 Gestión de Usuarios
+
+* Crear usuarios.
+* Editar usuarios.
+* Eliminar usuarios.
+* Asignar roles.
+
+### 📋 Gestión de Pedidos
+
+* Consultar pedidos.
+* Ver detalles.
+* Cambiar estados.
+* Eliminar pedidos.
+* Exportar información.
+
+---
+
+## 🔐 Sistema de Roles
+
+### Administrador
+
+Tiene acceso a:
+
+* Gestión de productos.
+* Gestión de usuarios.
+* Gestión de pedidos.
+* Estadísticas del sistema.
+
+### Usuario
+
+Puede:
+
+* Navegar por el catálogo.
+* Agregar productos al carrito.
+* Realizar pedidos.
+* Consultar información del restaurante.
 
 ---
 
@@ -90,252 +177,92 @@ Examen-des-app-web/
 
 ---
 
-# 🧩 Modularización Implementada
+## 🧩 Componentes Reutilizables
 
-El proyecto fue desarrollado siguiendo una arquitectura modular basada en componentes reutilizables de Vue.js.
+### Header.vue
 
-Cada componente tiene una responsabilidad específica, facilitando:
+Encabezado principal de la aplicación.
 
-- Mantenimiento.
-- Escalabilidad.
-- Reutilización.
-- Trabajo colaborativo.
+### Footer.vue
 
----
+Información institucional y de contacto.
 
-# 🧱 Componentes Reutilizables
+### ProductCard.vue
 
-## 🔹 Header.vue
+Visualización de productos.
 
-Componente encargado del encabezado principal de la aplicación.
+### Cart.vue
 
-### Funciones
+Administración del carrito de compras.
 
-- Mostrar logo del negocio.
-- Mostrar nombre del restaurante.
-- Navegación superior.
+### Sidebar.vue
 
----
+Navegación lateral del panel administrativo.
 
-## 🔹 Sidebar.vue
+### ContactForm.vue
 
-Menú lateral reutilizable utilizado dentro del dashboard.
+Formulario de contacto.
 
-### Funciones
+### AdminPanel.vue
 
-- Navegación entre vistas.
-- Acceso rápido a productos y clientes.
-- Íconos de navegación.
+Gestión de productos por parte del administrador.
 
 ---
 
-## 🔹 Footer.vue
+## 🛠️ Tecnologías Utilizadas
 
-Pie de página global reutilizable.
-
-### Funciones
-
-- Derechos reservados.
-- Información del proyecto.
-
----
-
-## 🔹 ProductCard.vue
-
-Tarjeta reutilizable para mostrar productos.
-
-### Funciones
-
-- Mostrar imagen.
-- Mostrar precio.
-- Mostrar descripción.
-- Botón de detalles.
+| Tecnología      | Uso                |
+| --------------- | ------------------ |
+| Vue.js 3        | Framework Frontend |
+| Vue Router      | Navegación         |
+| Bootstrap 5     | Diseño responsivo  |
+| Axios           | Consumo de APIs    |
+| JavaScript ES6+ | Lógica             |
+| HTML5           | Estructura         |
+| CSS3            | Estilos            |
 
 ---
 
-# 🔐 Sistema de Login
+## 📦 Dependencias
 
-La aplicación incluye una vista `LoginView.vue` encargada de validar usuarios desde un archivo JSON local.
-
-## Funcionalidades
-
-- Validación de correo y contraseña.
-- Mensajes de error con Bootstrap.
-- Redirección al dashboard.
-- Simulación de autenticación.
-
-## Credenciales de prueba
-
-```text
-Correo: usuario@test.com
-Contraseña: 123456
-```
-
-## Ejemplo de validación
-
-```javascript
-if (email === usuario.email && password === usuario.password) {
-    this.$router.push('/dashboard')
-} else {
-    this.error = 'Credenciales incorrectas'
+```json
+{
+  "axios": "^1.6.0",
+  "bootstrap": "^5.3.0",
+  "vue": "^3.3.0",
+  "vue-router": "^4.2.0"
 }
 ```
 
-> ⚠️ Nota: Este sistema de autenticación es únicamente educativo y no representa un sistema de seguridad real.
-
 ---
 
-# 📊 Dashboard Principal
+## 🚀 Instalación
 
-La aplicación incluye un Dashboard administrativo construido con Vue Router.
-
-## Características
-
-- Navbar persistente.
-- Sidebar reutilizable.
-- Navegación dinámica.
-- Renderizado mediante `<router-view>`.
-
-## Rutas implementadas
-
-```text
-/login
-/dashboard
-/dashboard/productos
-/dashboard/clientes
-```
-
----
-
-# 🛒 Gestión de Productos
-
-La vista `ProductView.vue` implementa un CRUD simulado de productos.
-
-## Funcionalidades
-
-- Listado de productos.
-- Crear productos.
-- Editar productos.
-- Eliminar productos.
-- Persistencia con LocalStorage.
-
-## Fuente de datos
-
-Los productos se cargan inicialmente desde:
-
-```text
-Productos.json
-```
-
-Posteriormente los datos son almacenados y gestionados mediante:
-
-```javascript
-localStorage
-```
-
----
-
-# 💬 Comunicación entre Componentes
-
-La comunicación entre componentes se realiza utilizando:
-
-- Props
-- Eventos personalizados
-- Vue Router
-
-## Ejemplo de props
-
-```vue
-<ProductCard :producto="producto" />
-```
-
-## Ejemplo de evento
-
-```vue
-this.$emit('eliminarProducto', id)
-```
-
----
-
-# 🎨 Diseño Responsivo
-
-La interfaz fue desarrollada utilizando Bootstrap para garantizar:
-
-- Diseño limpio.
-- Interfaz moderna.
-- Adaptabilidad móvil.
-- Consistencia visual.
-
-## Tecnologías utilizadas
-
-- Bootstrap 5
-- Flexbox
-- CSS personalizado
-- Responsive Design
-
----
-
-# ✅ Buenas Prácticas Aplicadas
-
-| Práctica | Implementación |
-|---|---|
-| Modularización | Componentes independientes |
-| Separación de responsabilidades | Views, Components, Router, Data |
-| Reutilización | Navbar, Sidebar, Footer |
-| Convenciones de nombres | PascalCase y camelCase |
-| Organización del proyecto | Arquitectura escalable |
-| Persistencia | LocalStorage |
-| Navegación SPA | Vue Router |
-
----
-
-# 🚀 Cómo Ejecutar el Proyecto
-
-## 1️⃣ Clonar repositorio
+### Clonar el repositorio
 
 ```bash
 git clone https://github.com/Xt-Andrey/segundo-parcial-des-app-web.git
 ```
 
----
-
-## 2️⃣ Entrar al proyecto
+### Ingresar al proyecto
 
 ```bash
 cd segundo-parcial-des-app-web
 ```
 
----
-
-# ⚙️ Configuración del Proyecto
-
-## 📦 Instalar dependencias
+### Instalar dependencias
 
 ```bash
 npm install
 ```
 
----
-
-## 🚀 Ejecutar el proyecto en modo desarrollo
-
-Compila la aplicación y habilita recarga automática al detectar cambios.
+### Ejecutar servidor local
 
 ```bash
 npm run serve
 ```
 
-Luego abrir en el navegador:
-
-```text
-http://localhost:8080
-```
-
----
-
-## 🏗️ Compilar para producción
-
-Genera la versión optimizada del proyecto para despliegue.
+### Generar versión de producción
 
 ```bash
 npm run build
@@ -343,54 +270,60 @@ npm run build
 
 ---
 
-## 🧹 Analizar y corregir errores de código
+## 🔑 Credenciales de Prueba
 
-Ejecuta ESLint para detectar problemas de estilo y posibles errores.
+### Administrador
 
-```bash
-npm run lint
+Correo:
+
+```text
+Nico.Cummings92@yahoo.com
+```
+
+Contraseña:
+
+```text
+gLz714f8Ocm4s7W
+```
+
+### Usuario
+
+Correo:
+
+```text
+Alyson.Gottlieb3@yahoo.com
+```
+
+Contraseña:
+
+```text
+0OsrkDfqM9ciMcC
 ```
 
 ---
 
-## ⚙️ Configuración adicional
+## 📈 Buenas Prácticas Aplicadas
 
-Para más información sobre la configuración de Vue CLI:
-
-https://cli.vuejs.org/config/
-
----
-
-# 🛠️ Tecnologías Utilizadas
-
-- Vue.js 3
-- Vue Router
-- JavaScript ES6+
-- Bootstrap 5
-- CSS3
-- HTML5
-- LocalStorage
-- JSON
+* Modularización del código.
+* Componentes reutilizables.
+* Separación de responsabilidades.
+* Navegación mediante SPA.
+* Persistencia de datos.
+* Organización escalable de carpetas.
+* Uso de Git y GitHub para control de versiones.
 
 ---
 
-# 👥 Integrantes del Grupo
+## 👨‍💻 Integrantes
 
-| Nombre | Código |
-|---|---|
+| Nombre                      | Código  |
+| --------------------------- | ------- |
 | RUBIEL ANDREY GALVIS GALVIS | 0192483 |
-| ARNOLD CLARO | 0192493 |
+| ARNOLD CLARO                | 0192493 |
 
 ---
 
-# 🔀 Trabajo Colaborativo en GitHub
-
-El desarrollo del proyecto evidencia trabajo colaborativo mediante:
-
-- Uso de ramas.
-- Pull Requests.
-- Commits descriptivos.
-- Integración progresiva hacia la rama principal (`main`).
+## 🔗 Repositorio
 
 Repositorio oficial:
 
@@ -398,18 +331,27 @@ https://github.com/Xt-Andrey/segundo-parcial-des-app-web
 
 ---
 
-# 📚 Referencias Oficiales
+## 📚 Referencias
 
-- Vue.js Documentation
-- Bootstrap 5 Documentation
-- Vue Router Documentation
-- MDN LocalStorage
-- JavaScript ES6+
+* Vue.js Documentation
+* Vue Router Documentation
+* Bootstrap Documentation
+* Axios Documentation
+* MDN Web Docs
+* MockAPI
 
 ---
 
-# 📌 Conclusiones
+## 📌 Conclusiones
 
-El proyecto permitió aplicar conceptos fundamentales de Vue.js y desarrollo frontend moderno mediante una arquitectura modular basada en componentes reutilizables.
+El desarrollo de Fast Food Bites permitió aplicar conocimientos fundamentales de Vue.js y desarrollo web moderno mediante la construcción de una aplicación SPA completamente funcional.
 
-Además, fortaleció el trabajo colaborativo utilizando GitHub y buenas prácticas de organización de código, logrando una aplicación funcional, escalable y visualmente coherente para la gestión de un restaurante de comida rápida.
+Durante el proyecto se implementaron componentes reutilizables, rutas dinámicas, autenticación de usuarios, gestión de productos, pedidos y usuarios, además de un diseño adaptable a diferentes dispositivos.
+
+La experiencia fortaleció competencias relacionadas con el trabajo colaborativo, control de versiones, consumo de APIs REST y organización profesional de proyectos frontend.
+
+---
+
+**Fast Food Bites 🍔🔥**
+
+Proyecto académico desarrollado para la asignatura de Desarrollo de Aplicaciones Web.

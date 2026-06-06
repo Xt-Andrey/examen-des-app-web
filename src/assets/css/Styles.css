@@ -79,9 +79,3 @@ body {
   background: #E55A2B;
   transform: translateY(-2px);
 }
-
-/* FORZAR FOOTER NEGRO */
-footer, .footer {
-  background: #1A1A2E !important;
-  background-color: #1A1A2E !important;
-}
