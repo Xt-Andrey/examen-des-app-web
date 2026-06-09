@@ -12,8 +12,11 @@
       <div class="footer-contact">
         <h3>CONTACTO</h3>
         <p>📍 Calle 123 #45-67, Ocaña</p>
+        <p>📍 Carrera 6 #7A-27, Ocaña</p>
         <p>📞 +57 310 240 2810</p>
+        <p>📞 +57 301 668 9904</p>
         <p>✉️ andreygalvis6002@gmail.com</p>
+        <p>✉️ arnoldclaro0613@hotmail.com </p>
       </div>
 
       <!-- Columna 3: Horarios -->

@@ -35,14 +35,16 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // CAMBIADO: usar localStorage en lugar de sessionStorage
   const isAuthenticated = localStorage.getItem('user')
   const userRole = localStorage.getItem('userRole')
-  
+
   if (to.meta.requiresAuth && !isAuthenticated) {
     next('/login')
   } else if (to.meta.isAdmin && userRole !== 'admin') {
     next('/')
+  } else if ((to.name === 'login' || to.name === 'register') && isAuthenticated) {
+    // Si ya está autenticado y quiere volver al login/register, redirigir
+    next(userRole === 'admin' ? '/admin' : '/')
   } else {
     next()
   }
