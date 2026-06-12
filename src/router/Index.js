@@ -26,6 +26,15 @@ const routes = [
     name: 'admin',
     component: AdminDashboard,
     meta: { requiresAuth: true, isAdmin: true }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: () => {
+      const isAuthenticated = sessionStorage.getItem('user')
+      const userRole = sessionStorage.getItem('userRole')
+      if (!isAuthenticated) return '/login'
+      return userRole === 'admin' ? '/admin' : '/'
+    }
   }
 ]
 
@@ -35,15 +44,14 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('user')
-  const userRole = localStorage.getItem('userRole')
+  const isAuthenticated = sessionStorage.getItem('user')
+  const userRole = sessionStorage.getItem('userRole')
 
   if (to.meta.requiresAuth && !isAuthenticated) {
     next('/login')
   } else if (to.meta.isAdmin && userRole !== 'admin') {
     next('/')
   } else if ((to.name === 'login' || to.name === 'register') && isAuthenticated) {
-    // Si ya está autenticado y quiere volver al login/register, redirigir
     next(userRole === 'admin' ? '/admin' : '/')
   } else {
     next()

@@ -1,6 +1,10 @@
 <template>
   <div class="admin-dashboard">
-    <!-- HEADER -->
+
+    <div class="alert-container">
+      <AlertMessage ref="alertRef" :type="alertType" :message="alertMessage" />
+    </div>
+
     <div class="admin-header">
       <div class="header-left">
         <h1>🍔 Fast Food Bites Admin</h1>
@@ -11,7 +15,6 @@
       </div>
     </div>
 
-    <!-- STATS CARDS -->
     <div class="stats-cards">
       <div class="stat-card" :class="{ active: activeTab === 'products' }" @click="activeTab = 'products'">
         <div class="stat-icon">🍔</div>
@@ -36,7 +39,6 @@
       </div>
     </div>
 
-    <!-- TABLA DE PRODUCTOS -->
     <div v-if="activeTab === 'products'" class="content-card">
       <div class="section-title">
         <h2>📋 Gestión de Productos</h2>
@@ -55,14 +57,18 @@
               <td class="price-cell">${{ product.price.toLocaleString() }}</td>
               <td>{{ getCategoryName(product.category) }}</td>
               <td><span :class="['popular-badge', product.popular ? 'popular' : 'normal']">{{ product.popular ? 'Popular' : 'Normal' }}</span></td>
-              <td><div class="action-buttons"><button @click="openProductModal(product)" class="btn-edit">Editar</button><button @click="deleteProduct(product.id)" class="btn-delete">Eliminar</button></div></td>
+              <td>
+                <div class="action-buttons">
+                  <button @click="openProductModal(product)" class="btn-edit">Editar</button>
+                  <button @click="deleteProduct(product.id)" class="btn-delete">Eliminar</button>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- TABLA DE USUARIOS -->
     <div v-if="activeTab === 'users'" class="content-card">
       <div class="section-title">
         <h2>👥 Gestión de Usuarios</h2>
@@ -79,14 +85,18 @@
               <td class="user-name">{{ user.name }}</td>
               <td class="user-email">{{ user.email }}</td>
               <td><span :class="['role-badge', user.role === 'admin' ? 'admin' : 'user']">{{ user.role === 'admin' ? 'Administrador' : 'Usuario' }}</span></td>
-              <td><div class="action-buttons"><button @click="openUserModal(user)" class="btn-edit">Editar</button><button @click="deleteUser(user.id)" class="btn-delete">Eliminar</button></div></td>
+              <td>
+                <div class="action-buttons">
+                  <button @click="openUserModal(user)" class="btn-edit">Editar</button>
+                  <button @click="deleteUser(user.id)" class="btn-delete">Eliminar</button>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- TABLA DE PEDIDOS -->
     <div v-if="activeTab === 'orders'" class="content-card">
       <div class="section-title">
         <h2>📦 Gestión de Pedidos</h2>
@@ -100,13 +110,7 @@
         <table class="data-table orders-table" v-else>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Cliente</th>
-              <th>Productos</th>
-              <th>Total</th>
-              <th>Estado</th>
-              <th>Fecha</th>
-              <th>Acciones</th>
+              <th>ID</th><th>Cliente</th><th>Productos</th><th>Total</th><th>Estado</th><th>Fecha</th><th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -129,7 +133,7 @@
               </td>
               <td class="total-cell">${{ order.total.toLocaleString() }}</td>
               <td>
-                <select :class="['status-badge', order.status]" v-model="order.status" @change="saveOrders">
+                <select :class="['status-badge', order.status]" v-model="order.status" @change="onStatusChange(order)">
                   <option value="pendiente">⏳ Pendiente</option>
                   <option value="preparando">🍳 Preparando</option>
                   <option value="enviado">🚚 Enviado</option>
@@ -149,56 +153,53 @@
         </table>
       </div>
 
-      <!-- RESUMEN DE PEDIDOS -->
       <div class="orders-summary" v-if="orders.length > 0">
         <div class="summary-card">
           <div class="summary-icon">📊</div>
-          <div class="summary-info">
-            <h4>Total Pedidos</h4>
-            <p>{{ orders.length }}</p>
-          </div>
+          <div class="summary-info"><h4>Total Pedidos</h4><p>{{ orders.length }}</p></div>
         </div>
         <div class="summary-card">
           <div class="summary-icon">💰</div>
-          <div class="summary-info">
-            <h4>Ingresos Totales</h4>
-            <p>${{ totalRevenue.toLocaleString() }}</p>
-          </div>
+          <div class="summary-info"><h4>Ingresos Totales</h4><p>${{ totalRevenue.toLocaleString() }}</p></div>
         </div>
         <div class="summary-card">
           <div class="summary-icon">✅</div>
-          <div class="summary-info">
-            <h4>Entregados</h4>
-            <p>{{ deliveredOrders }}</p>
-          </div>
+          <div class="summary-info"><h4>Entregados</h4><p>{{ deliveredOrders }}</p></div>
         </div>
         <div class="summary-card">
           <div class="summary-icon">⏳</div>
-          <div class="summary-info">
-            <h4>Pendientes</h4>
-            <p>{{ pendingOrders }}</p>
-          </div>
+          <div class="summary-info"><h4>Pendientes</h4><p>{{ pendingOrders }}</p></div>
         </div>
       </div>
     </div>
 
-    <!-- MODAL PRODUCTO -->
     <div v-if="showProductModal" class="modal" @click.self="closeProductModal">
       <div class="modal-content">
         <h3>{{ isEditingProduct ? 'Editar Producto' : 'Nuevo Producto' }}</h3>
         <form @submit.prevent="saveProduct">
           <div class="form-group"><label>Nombre:</label><input v-model="productForm.name" required></div>
           <div class="form-group"><label>Precio:</label><input type="number" v-model="productForm.price" required></div>
-          <div class="form-group"><label>Categoría:</label><select v-model="productForm.category"><option value="burgers">Hamburguesas</option><option value="chicken">Pollo</option><option value="hotdogs">Hotdogs</option><option value="sides">Acompañamientos</option><option value="bebidas">Bebidas</option></select></div>
+          <div class="form-group">
+            <label>Categoría:</label>
+            <select v-model="productForm.category">
+              <option value="burgers">Hamburguesas</option>
+              <option value="chicken">Pollo</option>
+              <option value="hotdogs">Hotdogs</option>
+              <option value="sides">Acompañamientos</option>
+              <option value="bebidas">Bebidas</option>
+            </select>
+          </div>
           <div class="form-group"><label>Descripción:</label><textarea v-model="productForm.description"></textarea></div>
           <div class="form-group"><label>URL Imagen:</label><input v-model="productForm.image" placeholder="https://via.placeholder.com/150"></div>
           <div class="form-group"><label><input type="checkbox" v-model="productForm.popular"> Producto Popular</label></div>
-          <div class="modal-buttons"><button type="submit" class="btn-save">Guardar</button><button type="button" @click="closeProductModal" class="btn-cancel">Cancelar</button></div>
+          <div class="modal-buttons">
+            <button type="submit" class="btn-save">Guardar</button>
+            <button type="button" @click="closeProductModal" class="btn-cancel">Cancelar</button>
+          </div>
         </form>
       </div>
     </div>
 
-    <!-- MODAL USUARIO -->
     <div v-if="showUserModal" class="modal" @click.self="closeUserModal">
       <div class="modal-content">
         <h3>{{ isEditingUser ? 'Editar Usuario' : 'Nuevo Usuario' }}</h3>
@@ -206,21 +207,56 @@
           <div class="form-group"><label>Nombre:</label><input v-model="userForm.name" required></div>
           <div class="form-group"><label>Email:</label><input type="email" v-model="userForm.email" required></div>
           <div class="form-group"><label>Contraseña:</label><input type="password" v-model="userForm.password" :required="!isEditingUser"></div>
-          <div class="form-group"><label>Rol:</label><select v-model="userForm.role"><option value="user">Usuario</option><option value="admin">Administrador</option></select></div>
-          <div class="modal-buttons"><button type="submit" class="btn-save">Guardar</button><button type="button" @click="closeUserModal" class="btn-cancel">Cancelar</button></div>
+          <div class="form-group">
+            <label>Rol:</label>
+            <select v-model="userForm.role">
+              <option value="user">Usuario</option>
+              <option value="admin">Administrador</option>
+            </select>
+          </div>
+          <div class="modal-buttons">
+            <button type="submit" class="btn-save">Guardar</button>
+            <button type="button" @click="closeUserModal" class="btn-cancel">Cancelar</button>
+          </div>
         </form>
       </div>
     </div>
+
+    <div v-if="showOrderModal" class="modal" @click.self="showOrderModal = false">
+      <div class="modal-content">
+        <h3>📋 Pedido #{{ selectedOrder?.id }}</h3>
+        <div v-if="selectedOrder">
+          <p><strong>👤 Cliente:</strong> {{ selectedOrder.customerName }}</p>
+          <p><strong>📧 Email:</strong> {{ selectedOrder.customerEmail }}</p>
+          <p><strong>💰 Total:</strong> ${{ selectedOrder.total?.toLocaleString() }}</p>
+          <p><strong>📦 Estado:</strong> {{ selectedOrder.status }}</p>
+          <p><strong>📅 Fecha:</strong> {{ formatDate(selectedOrder.createdAt) }}</p>
+          <hr>
+          <h4>🛒 Productos:</h4>
+          <ul>
+            <li v-for="(item, idx) in selectedOrder.items" :key="idx">
+              {{ item.cantidad }}x {{ item.nombre }} — ${{ (item.precio * item.cantidad).toLocaleString() }}
+            </li>
+          </ul>
+        </div>
+        <div class="modal-buttons">
+          <button @click="showOrderModal = false" class="btn-cancel">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import AlertMessage from '../components/AlertMessage.vue'
 
 const API_BASE = 'https://6a1aeb57bc2f94475492ce64.mockapi.io'
 
 export default {
   name: 'AdminDashboard',
+  components: { AlertMessage },
   data() {
     return {
       activeTab: 'products',
@@ -229,123 +265,119 @@ export default {
       orders: [],
       showProductModal: false,
       showUserModal: false,
+      showOrderModal: false,
+      selectedOrder: null,
       isEditingProduct: false,
       isEditingUser: false,
       currentAdminId: null,
+      alertType: 'success',
+      alertMessage: '',
       productForm: {
-        id: null,
-        name: '',
-        price: 0,
-        category: '',
-        description: '',
-        image: '',
-        popular: false
+        id: null, name: '', price: 0, category: '', description: '', image: '', popular: false
       },
       userForm: {
-        id: null,
-        name: '',
-        email: '',
-        password: '',
-        role: 'user'
+        id: null, name: '', email: '', password: '', role: 'user'
       }
     }
   },
   computed: {
     adminName() {
-      const user = JSON.parse(localStorage.getItem('user') || '{}')
+      const user = JSON.parse(sessionStorage.getItem('user') || '{}')
       return user.name || 'Administrador'
     },
     totalRevenue() {
       return this.orders.reduce((sum, order) => sum + (order.total || 0), 0)
     },
     deliveredOrders() {
-      return this.orders.filter(order => order.status === 'entregado').length
+      return this.orders.filter(o => o.status === 'entregado').length
     },
     pendingOrders() {
-      return this.orders.filter(order => order.status === 'pendiente' || order.status === 'preparando').length
+      return this.orders.filter(o => o.status === 'pendiente' || o.status === 'preparando').length
     }
   },
   mounted() {
-    const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
+    const currentUser = JSON.parse(sessionStorage.getItem('user') || '{}')
     this.currentAdminId = currentUser.id
     this.fetchProducts()
     this.fetchUsers()
     this.loadOrders()
   },
   methods: {
+    showAlert(type, message) {
+      this.alertType = type
+      this.alertMessage = message
+      this.$nextTick(() => this.$refs.alertRef?.show())
+    },
+
     getCategoryName(category) {
       const categories = {
-        burgers: 'Hamburguesas',
-        chicken: 'Pollo',
-        hotdogs: 'Hotdogs',
-        sides: 'Acompañamientos',
-        bebidas: 'Bebidas'
+        burgers: 'Hamburguesas', chicken: 'Pollo', hotdogs: 'Hotdogs',
+        sides: 'Acompañamientos', bebidas: 'Bebidas'
       }
       return categories[category] || category
     },
+
     formatDate(date) {
       if (!date) return 'N/A'
       return new Date(date).toLocaleString('es-CO')
     },
+
     loadOrders() {
       const saved = localStorage.getItem('orders')
-      console.log('📦 Pedidos cargados:', saved)
       this.orders = saved ? JSON.parse(saved) : []
     },
+
     saveOrders() {
       localStorage.setItem('orders', JSON.stringify(this.orders))
-      console.log('💾 Pedidos guardados:', this.orders.length)
     },
+
+    onStatusChange(order) {
+      this.saveOrders()
+      this.showAlert('success', `Estado del pedido #${order.id} actualizado a "${order.status}".`)
+    },
+
     async fetchProducts() {
       try {
         const response = await axios.get(`${API_BASE}/products`)
         this.products = response.data
       } catch (error) {
         console.error('Error fetching products:', error)
+        this.showAlert('danger', 'Error al cargar los productos.')
       }
     },
+
     async fetchUsers() {
       try {
         const response = await axios.get(`${API_BASE}/users`)
         this.users = response.data
       } catch (error) {
         console.error('Error fetching users:', error)
+        this.showAlert('danger', 'Error al cargar los usuarios.')
       }
     },
+
     openProductModal(product = null) {
       if (product) {
         this.isEditingProduct = true
         this.productForm = { ...product }
       } else {
         this.isEditingProduct = false
-        this.productForm = {
-          id: null,
-          name: '',
-          price: 0,
-          category: '',
-          description: '',
-          image: '',
-          popular: false
-        }
+        this.productForm = { id: null, name: '', price: 0, category: '', description: '', image: '', popular: false }
       }
       this.showProductModal = true
     },
+
     openUserModal(user = null) {
       if (user) {
         this.isEditingUser = true
         this.userForm = { ...user, password: '' }
       } else {
         this.isEditingUser = false
-        this.userForm = {
-          id: null,
-          name: '',
-          email: '',
-          password: '',
-          role: 'user'
-        }
+        this.userForm = { id: null, name: '', email: '', password: '', role: 'user' }
       }
       this.showUserModal = true
     },
+
     async saveProduct() {
       try {
         const productData = {
@@ -356,102 +388,96 @@ export default {
           image: this.productForm.image || 'https://via.placeholder.com/150',
           popular: Boolean(this.productForm.popular)
         }
-        
+
         if (this.isEditingProduct) {
           await axios.put(`${API_BASE}/products/${this.productForm.id}`, productData)
-          alert('✅ Producto actualizado')
+          this.showAlert('success', `✅ Producto "${productData.name}" actualizado correctamente.`)
         } else {
           await axios.post(`${API_BASE}/products`, productData)
-          alert('✅ Producto creado')
+          this.showAlert('success', `✅ Producto "${productData.name}" creado correctamente.`)
         }
         this.closeProductModal()
         await this.fetchProducts()
       } catch (error) {
         console.error('Error saving product:', error)
-        alert('Error al guardar producto')
+        this.showAlert('danger', 'Error al guardar el producto. Inténtalo de nuevo.')
       }
     },
+
     async saveUser() {
       try {
         const userData = { ...this.userForm }
-        
+
         if (!this.isEditingUser && !userData.password) {
-          alert('La contraseña es requerida')
+          this.showAlert('warning', 'La contraseña es requerida para crear un usuario.')
           return
         }
-        
+
         if (!this.isEditingUser) {
           delete userData.id
         } else {
           if (!userData.password) delete userData.password
         }
-        
+
         if (this.isEditingUser) {
           await axios.put(`${API_BASE}/users/${this.userForm.id}`, userData)
-          alert('✅ Usuario actualizado')
+          this.showAlert('success', `✅ Usuario "${userData.name}" actualizado correctamente.`)
         } else {
           await axios.post(`${API_BASE}/users`, userData)
-          alert('✅ Usuario creado')
+          this.showAlert('success', `✅ Usuario "${userData.name}" creado correctamente.`)
         }
         this.closeUserModal()
         await this.fetchUsers()
       } catch (error) {
         console.error('Error saving user:', error)
-        alert('Error al guardar usuario')
+        this.showAlert('danger', 'Error al guardar el usuario. Inténtalo de nuevo.')
       }
     },
+
     async deleteProduct(id) {
       if (confirm('¿Eliminar este producto?')) {
         try {
           await axios.delete(`${API_BASE}/products/${id}`)
-          alert('✅ Producto eliminado')
+          this.showAlert('warning', '🗑️ Producto eliminado correctamente.')
           await this.fetchProducts()
         } catch (error) {
           console.error('Error deleting product:', error)
-          alert('Error al eliminar producto')
+          this.showAlert('danger', 'Error al eliminar el producto.')
         }
       }
     },
+
     async deleteUser(id) {
       if (id === this.currentAdminId) {
-        alert('⚠️ No puedes eliminar tu propio usuario')
+        this.showAlert('danger', '⚠️ No puedes eliminar tu propio usuario.')
         return
       }
-      
+
       if (confirm('¿Eliminar este usuario?')) {
         try {
           await axios.delete(`${API_BASE}/users/${id}`)
-          alert('✅ Usuario eliminado')
+          this.showAlert('warning', '🗑️ Usuario eliminado correctamente.')
           await this.fetchUsers()
         } catch (error) {
           console.error('Error deleting user:', error)
-          alert('Error al eliminar usuario')
+          this.showAlert('danger', 'Error al eliminar el usuario.')
         }
       }
     },
+
     deleteOrder(id) {
       if (confirm('¿Eliminar este pedido?')) {
         this.orders = this.orders.filter(order => order.id !== id)
         this.saveOrders()
-        alert('✅ Pedido eliminado')
+        this.showAlert('warning', '🗑️ Pedido eliminado correctamente.')
       }
     },
+
     viewOrderDetails(order) {
-      let itemsList = ''
-      if (order.items && order.items.length > 0) {
-        order.items.forEach(item => {
-          itemsList += `${item.cantidad}x ${item.nombre} - $${(item.precio * item.cantidad).toLocaleString()}\n`
-        })
-      }
-      
-      alert(`📋 PEDIDO #${order.id}\n\n` +
-        `👤 Cliente: ${order.customerName}\n` +
-        `📧 Email: ${order.customerEmail}\n` +
-        `💰 Total: $${order.total.toLocaleString()}\n` +
-        `📦 Estado: ${order.status}\n` +
-        `📅 Fecha: ${this.formatDate(order.createdAt)}\n\n` +
-        `🛒 PRODUCTOS:\n${itemsList || 'Sin productos'}`)
+      this.selectedOrder = order
+      this.showOrderModal = true
     },
+
     exportOrders() {
       const report = {
         fecha: new Date().toISOString(),
@@ -459,26 +485,37 @@ export default {
         ingresosTotales: this.totalRevenue,
         pedidos: this.orders
       }
-      
       const dataStr = JSON.stringify(report, null, 2)
       const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr)
       const linkElement = document.createElement('a')
       linkElement.setAttribute('href', dataUri)
       linkElement.setAttribute('download', `reporte_pedidos_${Date.now()}.json`)
       linkElement.click()
-      
-      alert('📊 Reporte exportado')
+      this.showAlert('primary', '📊 Reporte exportado correctamente.')
     },
-    closeProductModal() {
-      this.showProductModal = false
-    },
-    closeUserModal() {
-      this.showUserModal = false
-    },
+
+    closeProductModal() { this.showProductModal = false },
+    closeUserModal() { this.showUserModal = false },
+
     logout() {
-      localStorage.clear()
+      sessionStorage.removeItem('user')
+      sessionStorage.removeItem('userRole')
+      sessionStorage.removeItem('userEmail')
+      sessionStorage.removeItem('userName')
       this.$router.push('/login')
     }
   }
 }
 </script>
+
+<style scoped>
+.alert-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: 90%;
+  max-width: 520px;
+}
+</style>

@@ -83,8 +83,11 @@ export default {
       this.mobileMenuOpen = !this.mobileMenuOpen
     },
     logout() {
-      localStorage.clear()
-      this.$router.push('/login')
+      sessionStorage.removeItem('user')
+      sessionStorage.removeItem('userRole')
+      sessionStorage.removeItem('userEmail')
+      sessionStorage.removeItem('userName')
+      this.$router.replace('/login')
     }
   }
 }

@@ -1,7 +1,6 @@
 <template>
   <div class="auth-page">
     <div class="auth-card">
-      <!-- Lado izquierdo - PIZZA COMO FONDO con texto encima -->
       <div class="auth-left">
         <div class="overlay"></div>
         <div class="brand-content">
@@ -32,11 +31,12 @@
         </div>
       </div>
 
-      <!-- Lado derecho - FORMULARIO DE LOGIN -->
       <div class="auth-right">
         <div class="form-content">
           <h2>¡Bienvenido!</h2>
           <p class="subtitle">Inicia sesión para ver nuestro menú</p>
+
+          <AlertMessage ref="alertRef" :type="alertType" :message="alertMessage" />
 
           <div class="test-users">
             <div class="test-title">📋 Usuarios de prueba</div>
@@ -61,7 +61,9 @@
               <label>🔒 Contraseña</label>
               <input type="password" v-model="password" placeholder="********">
             </div>
-            <button type="submit" class="btn-submit">Iniciar sesión →</button>
+            <button type="submit" class="btn-submit" :disabled="loading">
+              {{ loading ? 'Ingresando...' : 'Iniciar sesión →' }}
+            </button>
           </form>
 
           <p class="switch-link">
@@ -78,17 +80,30 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getUsers } from '../services/users'
+import AlertMessage from '../components/AlertMessage.vue'
 
 const correo = ref('')
 const password = ref('')
+const loading = ref(false)
 const router = useRouter()
+
+const alertRef = ref(null)
+const alertType = ref('danger')
+const alertMessage = ref('')
+
+const showAlert = (type, message) => {
+  alertType.value = type
+  alertMessage.value = message
+  alertRef.value?.show()
+}
 
 const login = async () => {
   if (!correo.value || !password.value) {
-    alert('Por favor ingresa correo y contraseña')
+    showAlert('warning', 'Por favor ingresa tu correo y contraseña.')
     return
   }
 
+  loading.value = true
   try {
     const usuarios = await getUsers()
     const usuario = usuarios.find(
@@ -96,22 +111,28 @@ const login = async () => {
     )
 
     if (usuario) {
-      localStorage.setItem('user', JSON.stringify(usuario))
-      localStorage.setItem('userRole', usuario.role)
-      localStorage.setItem('userEmail', usuario.email)
-      localStorage.setItem('userName', usuario.name)
+      showAlert('success', `¡Bienvenido, ${usuario.name}! Redirigiendo...`)
 
-      if (usuario.role === 'admin') {
-        router.push('/admin')
-      } else {
-        router.push('/')
-      }
+      sessionStorage.setItem('user', JSON.stringify(usuario))
+      sessionStorage.setItem('userRole', usuario.role)
+      sessionStorage.setItem('userEmail', usuario.email)
+      sessionStorage.setItem('userName', usuario.name)
+
+      setTimeout(() => {
+        if (usuario.role === 'admin') {
+          router.push('/admin')
+        } else {
+          router.push('/')
+        }
+      }, 1200)
     } else {
-      alert('Correo o contraseña incorrectos')
+      showAlert('danger', 'Correo o contraseña incorrectos. Inténtalo de nuevo.')
     }
   } catch (error) {
     console.error('Error en login:', error)
-    alert('Error al conectar con MockAPI')
+    showAlert('danger', 'Error al conectar con el servidor. Inténtalo más tarde.')
+  } finally {
+    loading.value = false
   }
 }
 </script>

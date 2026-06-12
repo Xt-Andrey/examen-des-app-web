@@ -1,11 +1,12 @@
 <template>
   <div class="auth-page">
     <div class="auth-card register-layout">
-      <!-- Lado izquierdo - FORMULARIO DE REGISTRO -->
       <div class="auth-left-form">
         <div class="form-content">
           <h2>Crear cuenta</h2>
           <p class="subtitle">Regístrate para comenzar a pedir</p>
+
+          <AlertMessage ref="alertRef" :type="alertType" :message="alertMessage" />
 
           <form @submit.prevent="registrar">
             <div class="input-group">
@@ -36,7 +37,6 @@
         </div>
       </div>
 
-      <!-- Lado derecho - PIZZA COMO FONDO con texto encima -->
       <div class="auth-right-image">
         <div class="overlay"></div>
         <div class="brand-content">
@@ -70,6 +70,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import AlertMessage from '../components/AlertMessage.vue'
 
 const API_BASE = 'https://6a1aeb57bc2f94475492ce64.mockapi.io'
 
@@ -80,19 +81,29 @@ const confirmPassword = ref('')
 const cargando = ref(false)
 const router = useRouter()
 
+const alertRef = ref(null)
+const alertType = ref('danger')
+const alertMessage = ref('')
+
+const showAlert = (type, message) => {
+  alertType.value = type
+  alertMessage.value = message
+  alertRef.value?.show()
+}
+
 const registrar = async () => {
   if (!nombre.value || !correo.value || !password.value) {
-    alert('⚠️ Todos los campos son obligatorios')
+    showAlert('warning', 'Todos los campos son obligatorios.')
     return
   }
 
   if (password.value !== confirmPassword.value) {
-    alert('❌ Las contraseñas no coinciden')
+    showAlert('danger', 'Las contraseñas no coinciden.')
     return
   }
 
   if (password.value.length < 6) {
-    alert('❌ La contraseña debe tener al menos 6 caracteres')
+    showAlert('danger', 'La contraseña debe tener al menos 6 caracteres.')
     return
   }
 
@@ -102,9 +113,9 @@ const registrar = async () => {
     const response = await axios.get(`${API_BASE}/users`)
     const usuarios = response.data
     const emailExiste = usuarios.find(u => u.email === correo.value)
-    
+
     if (emailExiste) {
-      alert('❌ Este correo ya está registrado')
+      showAlert('danger', 'Este correo ya está registrado.')
       cargando.value = false
       return
     }
@@ -118,13 +129,16 @@ const registrar = async () => {
     }
 
     await axios.post(`${API_BASE}/users`, nuevoUsuario)
-    
-    alert('✅ ¡Registro exitoso! Ahora puedes iniciar sesión')
-    router.push('/login')
-    
+
+    showAlert('success', '¡Registro exitoso! Redirigiendo al inicio de sesión...')
+
+    setTimeout(() => {
+      router.push('/login')
+    }, 1200)
+
   } catch (error) {
     console.error('Error en registro:', error)
-    alert('❌ Error al registrar usuario')
+    showAlert('danger', 'Error al registrar usuario. Inténtalo de nuevo.')
   } finally {
     cargando.value = false
   }

@@ -1,8 +1,11 @@
 <template>
   <div class="home">
+    <div class="alert-container">
+      <AlertMessage ref="alertRef" :type="alertType" :message="alertMessage" />
+    </div>
+
     <Header :carrito="carrito" @toggle-carrito="toggleCarrito" />
 
-    <!-- HERO -->
     <section class="hero">
       <div class="hero-content">
         <h1>EL MEJOR <span class="hero-highlight">MENÚ</span><br>DE LA CIUDAD</h1>
@@ -11,18 +14,16 @@
       </div>
     </section>
 
-    <!-- PRODUCTOS -->
     <section id="productos" class="products-section">
       <div class="container">
-        <!-- TÍTULO CORREGIDO: NUESTRO arriba, MENÚ abajo -->
         <div class="section-title">
           <span class="title-top">NUESTRO</span>
           <span class="title-bottom">MENÚ</span>
         </div>
-        
+
         <div class="categories">
-          <button 
-            v-for="cat in categorias" 
+          <button
+            v-for="cat in categorias"
             :key="cat.value"
             :class="['category-btn', { active: categoriaActiva === cat.value }]"
             @click="filtrar(cat.value)"
@@ -32,11 +33,10 @@
         </div>
 
         <div v-if="cargando" class="loading">Cargando productos...</div>
-        
+
         <div class="products-grid" v-else>
           <div v-for="producto in productosFiltrados" :key="producto.id" class="product-card">
             <span v-if="producto.popular" class="product-badge">🔥 Popular</span>
-            <!-- IMAGEN CENTRADA Y MÁS GRANDE -->
             <div class="product-img-container">
               <img :src="producto.imagen" :alt="producto.nombre" class="product-img">
             </div>
@@ -55,7 +55,6 @@
       </div>
     </section>
 
-    <!-- SOBRE NOSOTROS -->
     <section class="about-section">
       <div class="container">
         <div class="section-title">
@@ -70,19 +69,21 @@
       </div>
     </section>
 
-    <!-- CONTACTO -->
     <ContactForm />
 
-    <!-- FOOTER -->
     <Footer />
 
-    <!-- CARRITO -->
     <div v-if="mostrarCarrito" class="cart-overlay" @click="cerrarCarrito"></div>
     <div class="cart-sidebar" :class="{ active: mostrarCarrito }">
       <div class="cart-header">
         <h3>🛒 Mi carrito</h3>
         <button class="cart-close" @click="cerrarCarrito">✕</button>
       </div>
+
+      <div class="cart-alert-wrapper px-3 pt-2">
+        <AlertMessage ref="cartAlertRef" :type="cartAlertType" :message="cartAlertMessage" />
+      </div>
+
       <div class="cart-body">
         <div v-if="carrito.length === 0" class="empty-cart">
           <span class="empty-icon">🛒</span>
@@ -102,6 +103,7 @@
           <button class="cart-remove" @click="eliminarProducto(index)">🗑️</button>
         </div>
       </div>
+
       <div v-if="carrito.length > 0" class="cart-footer">
         <div class="cart-total">
           <span>Total:</span>
@@ -118,13 +120,15 @@
 import Header from '../components/Header.vue'
 import ContactForm from '../components/ContactForm.vue'
 import Footer from '../components/Footer.vue'
+import AlertMessage from '../components/AlertMessage.vue'
 
 export default {
   name: 'HomeView',
   components: {
     Header,
     ContactForm,
-    Footer
+    Footer,
+    AlertMessage
   },
   data() {
     return {
@@ -140,7 +144,11 @@ export default {
         { value: 'hotdogs', nombre: 'Hotdogs', icon: '🌭' },
         { value: 'sides', nombre: 'Acompañamientos', icon: '🍟' },
         { value: 'bebidas', nombre: 'Bebidas', icon: '🥤' }
-      ]
+      ],
+      alertType: 'success',
+      alertMessage: '',
+      cartAlertType: 'success',
+      cartAlertMessage: ''
     }
   },
   computed: {
@@ -157,6 +165,18 @@ export default {
     this.cargarCarrito()
   },
   methods: {
+    showAlert(type, message) {
+      this.alertType = type
+      this.alertMessage = message
+      this.$nextTick(() => this.$refs.alertRef?.show())
+    },
+
+    showCartAlert(type, message) {
+      this.cartAlertType = type
+      this.cartAlertMessage = message
+      this.$nextTick(() => this.$refs.cartAlertRef?.show())
+    },
+
     async cargarProductos() {
       this.cargando = true
       try {
@@ -173,11 +193,12 @@ export default {
         }))
       } catch (error) {
         console.error('Error:', error)
+        this.showAlert('danger', 'Error al cargar los productos. Intenta recargar la página.')
       } finally {
         this.cargando = false
       }
     },
-    
+
     cargarCarrito() {
       const saved = localStorage.getItem('carrito')
       if (saved) {
@@ -188,15 +209,16 @@ export default {
         }
       }
     },
-    
+
     guardarCarrito() {
       localStorage.setItem('carrito', JSON.stringify(this.carrito))
     },
-    
+
     agregarCarrito(producto) {
       const existe = this.carrito.find(item => item.id === producto.id)
       if (existe) {
         existe.cantidad++
+        this.showAlert('primary', `+1 ${producto.nombre} en tu carrito.`)
       } else {
         this.carrito.push({
           id: producto.id,
@@ -205,50 +227,55 @@ export default {
           imagen: producto.imagen,
           cantidad: 1
         })
+        this.showAlert('success', `✅ ${producto.nombre} agregado al carrito.`)
       }
       this.guardarCarrito()
       this.mostrarCarrito = true
     },
-    
+
     aumentarCantidad(index) {
       this.carrito[index].cantidad++
       this.guardarCarrito()
     },
-    
+
     disminuirCantidad(index) {
       this.carrito[index].cantidad--
       if (this.carrito[index].cantidad <= 0) {
+        const nombre = this.carrito[index].nombre
         this.carrito.splice(index, 1)
+        this.showCartAlert('warning', `${nombre} eliminado del carrito.`)
       }
       this.guardarCarrito()
     },
-    
+
     eliminarProducto(index) {
+      const nombre = this.carrito[index].nombre
       this.carrito.splice(index, 1)
       this.guardarCarrito()
+      this.showCartAlert('warning', `${nombre} eliminado del carrito.`)
     },
-    
+
     vaciarCarritoConfirmado() {
       if (confirm('¿Estás seguro de vaciar todo el carrito?')) {
         this.carrito = []
         localStorage.removeItem('carrito')
         this.mostrarCarrito = false
-        alert('🛒 Carrito vaciado correctamente')
+        this.showAlert('warning', '🛒 Carrito vaciado correctamente.')
       }
     },
-    
+
     cerrarCarrito() {
       this.mostrarCarrito = false
     },
-    
+
     finalizarCompra() {
       if (this.carrito.length === 0) {
-        alert('No hay productos en el carrito')
+        this.showCartAlert('warning', 'No hay productos en el carrito.')
         return
       }
 
-      const user = JSON.parse(localStorage.getItem('user') || '{}')
-      
+      const user = JSON.parse(sessionStorage.getItem('user') || '{}')
+
       const nuevoPedido = {
         id: Date.now(),
         customerName: user.name || 'Cliente',
@@ -267,24 +294,40 @@ export default {
       this.carrito = []
       localStorage.removeItem('carrito')
       this.mostrarCarrito = false
-      
-      alert('✅ ¡Pedido realizado con éxito!')
+
+      this.showAlert('success', '✅ ¡Pedido realizado con éxito! Pronto lo estaremos preparando.')
     },
-    
+
     toggleCarrito() {
       this.mostrarCarrito = !this.mostrarCarrito
     },
-    
+
     scrollToMenu() {
       const element = document.getElementById('productos')
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' })
       }
     },
-    
+
     filtrar(categoria) {
       this.categoriaActiva = categoria
     }
   }
 }
 </script>
+
+<style scoped>
+.alert-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: 90%;
+  max-width: 500px;
+}
+
+.cart-alert-wrapper {
+  padding: 8px 12px 0;
+}
+</style>
