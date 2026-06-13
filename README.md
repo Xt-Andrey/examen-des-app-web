@@ -137,25 +137,35 @@ Examen-des-app-web/
 │   │        │     ├── Header.css
 │   │        │     ├── Footer.css
 │   │        │     ├── Sidebar.css
-│   │        │     └── ProductCard.css
+│   │        │     ├── ProductCard.css
+│   │        │     ├── Cart.css
+│   │        │     ├── AdminPanel.css
+│   │        │     ├── ConfirmModal.css
+│   │        │     ├── ContactForm.css
+│   │        │     └── AdminMessages.css
 │   │        ├── views/
-│   │        │     ├── Login.css
+│   │        │     ├── Auth.css
 │   │        │     ├── Home.css
 │   │        │     └── AdminDashboard.css
 │   │        └── utils/
 │   │              └── variables.css (variables globales)
 │   │
+│   ├── utils
+│   │   └── auth.js
+│   │
 │   ├── components/
-│   │  ├── ProductCard.vue
-│   │  ├── Header.vue
-│   │  ├── Footer.vue
-│   │  ├── Sidebar.vue
-│   │  ├── ContactForm.vue
-│   │  ├── Cart.vue
-│   │  └── AdminPanel.vue
+│   │   ├── Header.css
+│   │   ├── Footer.css
+│   │   ├── Sidebar.css
+│   │   ├── ProductCard.css
+│   │   ├── Cart.css
+│   │   ├── AdminPanel.css
+│   │   ├── ConfirmModal.css
+│   │   ├── ContactForm.css
+│   │   └── AdminMessages.css
 │   │
 │   ├── router/
-│   │   └── index.js
+│   │   └── Index.js
 │   │
 │   ├─── services
 │   │   ├── products.js
@@ -164,6 +174,7 @@ Examen-des-app-web/
 │   ├── views/
 │   │   ├── HomeView.vue
 │   │   ├── AdminDashboard.vue
+│   │   ├── RegisterView.vue
 │   │   └── LoginView.vue
 │   │
 │   ├── App.vue

@@ -5,6 +5,31 @@
       <AlertMessage ref="alertRef" :type="alertType" :message="alertMessage" />
     </div>
 
+    <!-- Modal de confirmación personalizado -->
+    <div v-if="showConfirmModal" class="confirm-modal-overlay" @click.self="closeConfirmModal">
+      <div class="confirm-modal">
+        <div class="confirm-modal-header" :class="confirmType">
+          <div class="confirm-icon">
+            <span v-if="confirmType === 'warning'">⚠️</span>
+            <span v-if="confirmType === 'danger'">🗑️</span>
+            <span v-if="confirmType === 'info'">ℹ️</span>
+            <span v-if="confirmType === 'success'">✅</span>
+          </div>
+          <h3>{{ confirmTitle }}</h3>
+        </div>
+        <div class="confirm-modal-body" v-html="confirmMessage">
+        </div>
+        <div class="confirm-modal-footer">
+          <button class="confirm-btn-cancel" @click="closeConfirmModal">
+            {{ confirmCancelText }}
+          </button>
+          <button class="confirm-btn-confirm" :class="confirmType" @click="executeConfirmAction">
+            {{ confirmConfirmText }}
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div class="admin-header">
       <div class="header-left">
         <h1>🍔 Fast Food Bites Admin</h1>
@@ -37,8 +62,16 @@
           <span class="stat-label">Pedidos</span>
         </div>
       </div>
+      <div class="stat-card" :class="{ active: activeTab === 'messages' }" @click="activeTab = 'messages'">
+        <div class="stat-icon">📬</div>
+        <div class="stat-info">
+          <span class="stat-number">{{ unreadMessagesCount }}</span>
+          <span class="stat-label">Mensajes</span>
+        </div>
+      </div>
     </div>
 
+    <!-- Sección de Productos -->
     <div v-if="activeTab === 'products'" class="content-card">
       <div class="section-title">
         <h2>📋 Gestión de Productos</h2>
@@ -47,7 +80,15 @@
       <div class="table-wrapper">
         <table class="data-table">
           <thead>
-            <tr><th>ID</th><th>Imagen</th><th>Nombre</th><th>Precio</th><th>Categoría</th><th>Popular</th><th>Acciones</th></tr>
+            <tr>
+              <th>ID</th>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Categoría</th>
+              <th>Popular</th>
+              <th>Acciones</th>
+            </tr>
           </thead>
           <tbody>
             <tr v-for="product in products" :key="product.id">
@@ -69,6 +110,7 @@
       </div>
     </div>
 
+    <!-- Sección de Usuarios -->
     <div v-if="activeTab === 'users'" class="content-card">
       <div class="section-title">
         <h2>👥 Gestión de Usuarios</h2>
@@ -77,7 +119,13 @@
       <div class="table-wrapper">
         <table class="data-table">
           <thead>
-            <tr><th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Acciones</th></tr>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Rol</th>
+              <th>Acciones</th>
+            </tr>
           </thead>
           <tbody>
             <tr v-for="user in users" :key="user.id">
@@ -97,6 +145,7 @@
       </div>
     </div>
 
+    <!-- Sección de Pedidos -->
     <div v-if="activeTab === 'orders'" class="content-card">
       <div class="section-title">
         <h2>📦 Gestión de Pedidos</h2>
@@ -110,7 +159,13 @@
         <table class="data-table orders-table" v-else>
           <thead>
             <tr>
-              <th>ID</th><th>Cliente</th><th>Productos</th><th>Total</th><th>Estado</th><th>Fecha</th><th>Acciones</th>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Productos</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -173,6 +228,20 @@
       </div>
     </div>
 
+    <!-- Sección de Mensajes -->
+    <div v-if="activeTab === 'messages'" class="content-card">
+      <div class="section-title">
+        <h2>📬 Bandeja de Mensajes</h2>
+        <button @click="refreshMessages" class="btn-refresh" style="background:#17a2b8;">🔄 Refrescar</button>
+      </div>
+      <AdminMessages 
+        ref="adminMessagesRef"
+        @show-alert="showAlert"
+        @show-confirm="showConfirm"
+      />
+    </div>
+
+    <!-- Modal Producto -->
     <div v-if="showProductModal" class="modal" @click.self="closeProductModal">
       <div class="modal-content">
         <h3>{{ isEditingProduct ? 'Editar Producto' : 'Nuevo Producto' }}</h3>
@@ -200,6 +269,7 @@
       </div>
     </div>
 
+    <!-- Modal Usuario -->
     <div v-if="showUserModal" class="modal" @click.self="closeUserModal">
       <div class="modal-content">
         <h3>{{ isEditingUser ? 'Editar Usuario' : 'Nuevo Usuario' }}</h3>
@@ -222,6 +292,7 @@
       </div>
     </div>
 
+    <!-- Modal Pedido -->
     <div v-if="showOrderModal" class="modal" @click.self="showOrderModal = false">
       <div class="modal-content">
         <h3>📋 Pedido #{{ selectedOrder?.id }}</h3>
@@ -251,12 +322,17 @@
 <script>
 import axios from 'axios'
 import AlertMessage from '../components/AlertMessage.vue'
+import AdminMessages from '../components/AdminMessages.vue'
+import { auth } from '../utils/auth'
 
 const API_BASE = 'https://6a1aeb57bc2f94475492ce64.mockapi.io'
 
 export default {
   name: 'AdminDashboard',
-  components: { AlertMessage },
+  components: { 
+    AlertMessage,
+    AdminMessages
+  },
   data() {
     return {
       activeTab: 'products',
@@ -277,13 +353,20 @@ export default {
       },
       userForm: {
         id: null, name: '', email: '', password: '', role: 'user'
-      }
+      },
+      showConfirmModal: false,
+      confirmType: 'warning',
+      confirmTitle: '',
+      confirmMessage: '',
+      confirmConfirmText: 'Aceptar',
+      confirmCancelText: 'Cancelar',
+      pendingAction: null,
+      pendingActionData: null
     }
   },
   computed: {
     adminName() {
-      const user = JSON.parse(sessionStorage.getItem('user') || '{}')
-      return user.name || 'Administrador'
+      return auth.getUserName() || 'Administrador'
     },
     totalRevenue() {
       return this.orders.reduce((sum, order) => sum + (order.total || 0), 0)
@@ -293,11 +376,22 @@ export default {
     },
     pendingOrders() {
       return this.orders.filter(o => o.status === 'pendiente' || o.status === 'preparando').length
+    },
+    unreadMessagesCount() {
+      const messages = JSON.parse(localStorage.getItem('contact_messages') || '[]')
+      return messages.filter(m => !m.leido).length
     }
   },
   mounted() {
-    const currentUser = JSON.parse(sessionStorage.getItem('user') || '{}')
-    this.currentAdminId = currentUser.id
+    const user = auth.getUser()
+    const userRole = auth.getUserRole()
+    
+    if (!user || userRole !== 'admin') {
+      this.$router.replace('/login')
+      return
+    }
+    
+    this.currentAdminId = user.id
     this.fetchProducts()
     this.fetchUsers()
     this.loadOrders()
@@ -307,6 +401,30 @@ export default {
       this.alertType = type
       this.alertMessage = message
       this.$nextTick(() => this.$refs.alertRef?.show())
+    },
+
+    showConfirm(options) {
+      this.confirmType = options.type || 'warning'
+      this.confirmTitle = options.title || 'Confirmar'
+      this.confirmMessage = options.message || '¿Estás seguro?'
+      this.confirmConfirmText = options.confirmText || 'Sí, eliminar'
+      this.confirmCancelText = options.cancelText || 'Cancelar'
+      this.pendingAction = options.action
+      this.pendingActionData = options.data
+      this.showConfirmModal = true
+    },
+    
+    closeConfirmModal() {
+      this.showConfirmModal = false
+      this.pendingAction = null
+      this.pendingActionData = null
+    },
+    
+    async executeConfirmAction() {
+      if (this.pendingAction) {
+        await this.pendingAction(this.pendingActionData)
+      }
+      this.closeConfirmModal()
     },
 
     getCategoryName(category) {
@@ -435,42 +553,76 @@ export default {
     },
 
     async deleteProduct(id) {
-      if (confirm('¿Eliminar este producto?')) {
-        try {
-          await axios.delete(`${API_BASE}/products/${id}`)
-          this.showAlert('warning', '🗑️ Producto eliminado correctamente.')
-          await this.fetchProducts()
-        } catch (error) {
-          console.error('Error deleting product:', error)
-          this.showAlert('danger', 'Error al eliminar el producto.')
-        }
-      }
+      const product = this.products.find(p => p.id === id)
+      
+      this.showConfirm({
+        type: 'danger',
+        title: '¿Eliminar producto?',
+        message: `Estás a punto de eliminar <strong>${product?.name || 'este producto'}</strong>`,
+        confirmText: 'Sí, eliminar',
+        action: async (productId) => {
+          try {
+            await axios.delete(`${API_BASE}/products/${productId}`)
+            this.showAlert('warning', '🗑️ Producto eliminado correctamente.')
+            await this.fetchProducts()
+          } catch (error) {
+            console.error('Error deleting product:', error)
+            this.showAlert('danger', 'Error al eliminar el producto.')
+          }
+        },
+        data: id
+      })
     },
 
     async deleteUser(id) {
-      if (id === this.currentAdminId) {
+      const currentUser = auth.getUser()
+      const user = this.users.find(u => u.id === id)
+      
+      if (id === currentUser?.id) {
         this.showAlert('danger', '⚠️ No puedes eliminar tu propio usuario.')
         return
       }
-
-      if (confirm('¿Eliminar este usuario?')) {
-        try {
-          await axios.delete(`${API_BASE}/users/${id}`)
-          this.showAlert('warning', '🗑️ Usuario eliminado correctamente.')
-          await this.fetchUsers()
-        } catch (error) {
-          console.error('Error deleting user:', error)
-          this.showAlert('danger', 'Error al eliminar el usuario.')
-        }
-      }
+      
+      this.showConfirm({
+        type: 'danger',
+        title: '¿Eliminar usuario?',
+        message: `Estás a punto de eliminar a <strong>${user?.name || 'este usuario'}</strong>`,
+        confirmText: 'Sí, eliminar',
+        action: async (userId) => {
+          try {
+            await axios.delete(`${API_BASE}/users/${userId}`)
+            this.showAlert('warning', '🗑️ Usuario eliminado correctamente.')
+            await this.fetchUsers()
+          } catch (error) {
+            console.error('Error deleting user:', error)
+            this.showAlert('danger', 'Error al eliminar el usuario.')
+          }
+        },
+        data: id
+      })
     },
 
     deleteOrder(id) {
-      if (confirm('¿Eliminar este pedido?')) {
-        this.orders = this.orders.filter(order => order.id !== id)
-        this.saveOrders()
-        this.showAlert('warning', '🗑️ Pedido eliminado correctamente.')
-      }
+      const order = this.orders.find(o => o.id === id)
+      
+      this.showConfirm({
+        type: 'danger',
+        title: '¿Eliminar pedido?',
+        message: `
+          <div style="text-align: left;">
+            <p>Estás a punto de eliminar el pedido <strong>#${id}</strong></p>
+            <p><strong>Cliente:</strong> ${order?.customerName}</p>
+            <p><strong>Total:</strong> $${order?.total?.toLocaleString()}</p>
+          </div>
+        `,
+        confirmText: 'Sí, eliminar',
+        action: (orderId) => {
+          this.orders = this.orders.filter(order => order.id !== orderId)
+          this.saveOrders()
+          this.showAlert('warning', '🗑️ Pedido eliminado correctamente.')
+        },
+        data: id
+      })
     },
 
     viewOrderDetails(order) {
@@ -494,14 +646,18 @@ export default {
       this.showAlert('primary', '📊 Reporte exportado correctamente.')
     },
 
+    refreshMessages() {
+      if (this.$refs.adminMessagesRef) {
+        this.$refs.adminMessagesRef.cargarMensajes()
+      }
+      this.showAlert('success', '📬 Mensajes actualizados.')
+    },
+
     closeProductModal() { this.showProductModal = false },
     closeUserModal() { this.showUserModal = false },
 
     logout() {
-      sessionStorage.removeItem('user')
-      sessionStorage.removeItem('userRole')
-      sessionStorage.removeItem('userEmail')
-      sessionStorage.removeItem('userName')
+      auth.logout()
       this.$router.push('/login')
     }
   }

@@ -81,6 +81,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getUsers } from '../services/users'
 import AlertMessage from '../components/AlertMessage.vue'
+import { auth } from '../utils/auth'
 
 const correo = ref('')
 const password = ref('')
@@ -113,10 +114,7 @@ const login = async () => {
     if (usuario) {
       showAlert('success', `¡Bienvenido, ${usuario.name}! Redirigiendo...`)
 
-      sessionStorage.setItem('user', JSON.stringify(usuario))
-      sessionStorage.setItem('userRole', usuario.role)
-      sessionStorage.setItem('userEmail', usuario.email)
-      sessionStorage.setItem('userName', usuario.name)
+      auth.login(usuario)
 
       setTimeout(() => {
         if (usuario.role === 'admin') {

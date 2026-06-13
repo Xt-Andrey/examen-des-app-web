@@ -121,6 +121,7 @@ import Header from '../components/Header.vue'
 import ContactForm from '../components/ContactForm.vue'
 import Footer from '../components/Footer.vue'
 import AlertMessage from '../components/AlertMessage.vue'
+import { auth } from '../utils/auth'
 
 export default {
   name: 'HomeView',
@@ -161,6 +162,11 @@ export default {
     }
   },
   mounted() {
+    // Verificar autenticación
+    if (!auth.isAuthenticated()) {
+      this.$router.replace('/login')
+      return
+    }
     this.cargarProductos()
     this.cargarCarrito()
   },
@@ -274,12 +280,12 @@ export default {
         return
       }
 
-      const user = JSON.parse(sessionStorage.getItem('user') || '{}')
+      const user = auth.getUser()
 
       const nuevoPedido = {
         id: Date.now(),
-        customerName: user.name || 'Cliente',
-        customerEmail: user.email || 'sin-email@cliente.com',
+        customerName: user?.name || 'Cliente',
+        customerEmail: user?.email || 'sin-email@cliente.com',
         items: [...this.carrito],
         total: this.total,
         status: 'pendiente',
@@ -330,4 +336,4 @@ export default {
 .cart-alert-wrapper {
   padding: 8px 12px 0;
 }
-</style>
+</style>  

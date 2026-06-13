@@ -11,11 +11,18 @@
 @import './components/ProductCard.css';
 @import './components/Cart.css';
 @import './components/ContactForm.css';
+@import './components/AdminPanel.css';
+@import './components/ConfirmModal.css';
 
 /* Importar vistas */
 @import './views/Home.css';
 @import './views/Auth.css';
 @import './views/AdminDashboard.css';
+@import './views/AdminMessages.css';  /* ← Corregido */
+
+/* Importar utils */
+@import './utils/variables.css';
+
 
 /* Estilos globales */
 * {

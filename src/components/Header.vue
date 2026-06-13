@@ -1,7 +1,6 @@
 <template>
   <nav class="navbar">
     <div class="nav-container">
-      <!-- LOGO A LA IZQUIERDA -->
       <div class="nav-logo" @click="goHome">
         <div class="logo-line1">
           <span class="logo-fast">Fast</span>
@@ -12,13 +11,11 @@
         </div>
       </div>
 
-      <!-- MENÚ CENTRAL -->
       <div class="nav-menu">
         <a href="#productos" class="nav-link" @click.prevent="scrollToProductos">Productos</a>
         <a href="#contacto" class="nav-link" @click.prevent="scrollToContacto">Contacto</a>
       </div>
 
-      <!-- BOTONES A LA DERECHA -->
       <div class="nav-actions">
         <button class="cart-btn" @click="$emit('toggle-carrito')">
           🛒 <span class="cart-count">{{ totalItems }}</span>
@@ -28,11 +25,9 @@
         </button>
       </div>
 
-      <!-- BOTÓN MENÚ MÓVIL -->
       <button class="mobile-menu-btn" @click="toggleMobileMenu">☰</button>
     </div>
 
-    <!-- MENÚ MÓVIL -->
     <div class="mobile-menu" v-if="mobileMenuOpen">
       <a href="#productos" class="mobile-link" @click.prevent="scrollToProductos">Productos</a>
       <a href="#contacto" class="mobile-link" @click.prevent="scrollToContacto">Contacto</a>
@@ -43,6 +38,8 @@
 </template>
 
 <script>
+import { auth } from '../utils/auth'
+
 export default {
   name: 'AppHeader',
   props: {
@@ -83,10 +80,7 @@ export default {
       this.mobileMenuOpen = !this.mobileMenuOpen
     },
     logout() {
-      sessionStorage.removeItem('user')
-      sessionStorage.removeItem('userRole')
-      sessionStorage.removeItem('userEmail')
-      sessionStorage.removeItem('userName')
+      auth.logout()
       this.$router.replace('/login')
     }
   }
