@@ -293,7 +293,7 @@ git clone https://github.com/Xt-Andrey/examen-des-app-web.git
 ### 2. Ingresar al proyecto
 
 ```bash
-cd segundo-parcial-des-app-web
+cd examen-parcial-des-app-web
 ```
 
 ### 3. Instalar dependencias
