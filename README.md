@@ -287,7 +287,7 @@ Examen-des-app-web/
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/Xt-Andrey/segundo-parcial-des-app-web.git
+git clone https://github.com/Xt-Andrey/examen-des-app-web.git
 ```
 
 ### 2. Ingresar al proyecto
